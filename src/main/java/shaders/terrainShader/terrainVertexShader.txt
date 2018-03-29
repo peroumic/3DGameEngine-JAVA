@@ -1,0 +1,26 @@
+#version 330
+
+in vec3 in_position;
+in vec3 in_color;
+in vec3 in_normal;
+
+flat out vec3 pass_color;
+
+uniform mat4 transformationMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
+uniform vec3 lightDirection;
+uniform vec3 lightColor;
+uniform vec2 lightBias;
+
+
+vec3 calculateLighting(){
+    float brightness = max(dot(-lightDirection, in_normal.xyz * 2.0 - 1.0), 0.5);
+    return (lightColor * lightBias.x) + (brightness * lightColor * lightBias.y);
+}
+
+void main(void){
+	gl_Position = projectionMatrix * viewMatrix * transformationMatrix * vec4(in_position,1.0);
+    vec3 lighting = calculateLighting();
+    pass_color = in_color.rgb * lighting;
+}

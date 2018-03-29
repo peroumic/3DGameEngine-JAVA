@@ -1,0 +1,22 @@
+#version 150
+
+in vec2 pass_textureCoords;
+in vec3 surfaceNormal;
+
+out vec4 out_Color;
+
+uniform sampler2D textureSampler;
+
+uniform vec3 lightColor;
+uniform vec3 lightDirection;
+uniform vec2 lightBias;
+
+vec3 calculateLighting(){
+    float brightness = max(dot(-lightDirection, surfaceNormal.xyz * 2.0 - 1.0), 0.5);
+    return (lightColor * lightBias.x) + (brightness * lightColor * lightBias.y);
+}
+
+void main(void){
+    vec3 lightning = calculateLighting();
+	out_Color = vec4(lightning, 1.0) * texture(textureSampler, pass_textureCoords);
+}
