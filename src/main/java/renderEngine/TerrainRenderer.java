@@ -12,10 +12,18 @@ import toolbox.Maths;
 
 import java.util.List;
 
+/**
+ * handles rendering of the terrain
+ */
 public class TerrainRenderer {
 
     private TerrainShader shader;
 
+    /**
+     * Constructor
+     * @param shader - whisch shader should renderer use
+     * @param projectionMatrix - current projection
+     */
     public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix){
         this.shader = shader;
         shader.start();
@@ -23,6 +31,10 @@ public class TerrainRenderer {
         shader.stop();
     }
 
+    /**
+     * Main method to render terrains
+     * @param terrains - list of terrains to be rendered
+     */
     public void render(List<Terrain> terrains){
         for(Terrain terrain:terrains){
             prepareTerrain(terrain);

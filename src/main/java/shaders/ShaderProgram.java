@@ -12,10 +12,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
+/**
+ * this whole class was based from suggestions from stack overflow
+ * the basic principle is, that it opens both txt Shader files
+ * and based on them feeds data directly to the graphics card
+ */
 public abstract class ShaderProgram {
-    //this whole class was based from suggestions from stack overflow
-    //the basic principle is, that it opens both txt Shader files
-    //and
     private int programID;
     private int vertexShaderID;
     private int fragmentShaderID;

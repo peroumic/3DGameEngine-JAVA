@@ -16,6 +16,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The main class for loading and creating VAOs (Vertex Array Objects), which are used to hold
@@ -23,6 +25,7 @@ import java.util.List;
  */
 public class Loader {
 
+    private final static Logger LOGGER = Logger.getLogger(Loader.class.getName());
     private List<Integer> vaos = new ArrayList<Integer>();
     private List<Integer> vbos = new ArrayList<Integer>();
     private List<Integer> textures = new ArrayList<Integer>();
@@ -48,6 +51,13 @@ public class Loader {
         unbindVAO();
         //divided by 3, cause it is a 3D space (xyz)
         return new RawModel(vaoID, indexes.length);
+    }
+
+    public RawModel loadToVAO(float[] positions){
+        int vaoID = createVAO();
+        storeDataInAttributeList(0, 2, positions);
+        unbindVAO();
+        return new RawModel(vaoID, positions.length / 2);
     }
 
     public RawModel loadTerrainToVAO(float[] positions, int[] indexes, float[] colors, float[] normals){
@@ -176,8 +186,10 @@ public class Loader {
         try {
             texture = TextureLoader.getTexture("PNG", new FileInputStream("src/main/java/resources/"+fileName+".png"));
         } catch (FileNotFoundException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
         int textureID = texture.getTextureID();

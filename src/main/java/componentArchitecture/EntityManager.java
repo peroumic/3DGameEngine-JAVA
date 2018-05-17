@@ -3,6 +3,14 @@ package componentArchitecture;
 import java.io.*;
 import java.util.*;
 
+/**
+ * This Manager is the bread and butter of this projects.
+ * It distances itself from the problem with inheritance
+ * and implements a database-like system. Components are
+ * database tables, which hold data. Systems checks, if
+ * Entities have data input for some component, and if they
+ * do, they do what the system should do for that entity.
+ */
 public class EntityManager implements Serializable{
     boolean frozen;
     List<UUID> allEntities;
@@ -55,18 +63,6 @@ public class EntityManager implements Serializable{
         }
     }
 
-    public <T extends Component> boolean hasComponent(UUID entity, Class<T> componentType){
-        synchronized (componentStores){
-            HashMap<UUID, ? extends Component> store = componentStores
-                    .get(componentType);
-
-            if (store == null)
-                return false;
-            else
-                return store.containsKey(entity);
-        }
-    }
-
     public <T extends Component> List<T> getAllComponentsOnEntity(UUID entity ){
         synchronized (componentStores){
             LinkedList<T> components = new LinkedList<T>();
@@ -82,18 +78,6 @@ public class EntityManager implements Serializable{
             }
 
             return components;
-        }
-    }
-
-    public <T extends Component> Collection<T> getAllComponentsOfType(Class<T> componentType){
-        synchronized (componentStores){
-            HashMap<UUID, ? extends Component> store = componentStores
-                    .get(componentType);
-
-            if (store == null)
-                return new LinkedList<T>();
-
-            return (Collection<T>) store.values();
         }
     }
 
@@ -146,13 +130,5 @@ public class EntityManager implements Serializable{
             }
             allEntities.remove(entity);
         }
-    }
-
-    public void freeze(){
-        frozen = true;
-    }
-
-    public void unFreeze(){
-        frozen = false;
     }
 }

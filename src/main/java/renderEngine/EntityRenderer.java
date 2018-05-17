@@ -1,7 +1,6 @@
 package renderEngine;
 
 import componentArchitecture.EntityManager;
-import components.ModelComponent;
 import components.TransformationComponent;
 import models.RawModel;
 import models.TexturedModel;
@@ -18,10 +17,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * this class handles the rendering of Entities
+ */
 public class EntityRenderer {
     private StaticShader shader;
     private EntityManager entityManager;
 
+    /**
+     * contructor
+     * @param shader - shader instance
+     * @param projectionMatrix - how is the projection matrix for current view
+     * @param entityManager - for database stuff
+     */
     public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix, EntityManager entityManager) {
         this.entityManager = entityManager;
         this.shader = shader;
@@ -78,10 +86,10 @@ public class EntityRenderer {
      */
     private void prepareInstance(UUID entity){
         TransformationComponent transComp = entityManager.getComponent(entity, TransformationComponent.class);
-        Vector3f position = new Vector3f(transComp.posX, transComp.posY, transComp.posZ);
+        Vector3f position = new Vector3f(transComp.getPosition().x, transComp.getPosition().y, transComp.getPosition().z);
         //getting transformation matrix, so we know, where and how big to render it
-        Matrix4f transformationMatrix = Maths.createTransformationMatrix(position, transComp.rotX,
-                transComp.rotY, transComp.rotZ, transComp.scale);
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(position, 0,
+                transComp.getOrientationY(), 0, transComp.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
     }
 

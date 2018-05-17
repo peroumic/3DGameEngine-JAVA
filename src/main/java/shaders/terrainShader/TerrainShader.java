@@ -6,6 +6,9 @@ import renderEngine.Light;
 import shaders.ShaderProgram;
 import toolbox.Maths;
 
+/**
+ * handles shaders for terains
+ */
 public class TerrainShader extends ShaderProgram {
     private static final String VERTEX_FILE = "src/main/java/shaders/terrainShader/terrainVertexShader.txt";
     private static final String FRAGMENT_FILE = "src/main/java/shaders/terrainShader/terrainFragmentShader.txt";

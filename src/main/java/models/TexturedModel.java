@@ -2,6 +2,9 @@ package models;
 
 import textures.ModelTexture;
 
+/**
+ * combines texture and the model
+ */
 public class TexturedModel {
 
     private RawModel rawModel;

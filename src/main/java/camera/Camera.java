@@ -3,14 +3,12 @@ package camera;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-import renderEngine.DisplayManager;
 
 /**
  * This is the camera class, which allows us movement in our game world
  */
-public class Camera {
+public class Camera extends Thread{
 
-    private static final float SPEED = 40;
     private static final float TURN_SPEED = 0.5f;
     private static final float MAX_ZOOM = 400;
     private static final float MIN_ZOOM = 15;
@@ -25,46 +23,30 @@ public class Camera {
     //how right/left the camera is
     private float yaw;
 
-
     private Target target;
 
+    /**
+     * constructor for camera
+     * @param target - the traget that the Camera follows
+     */
     public Camera(Target target){
         this.target = target;
     }
 
+    /**
+     * update method for camera, which does the main calculations and checks for user input
+     */
     public void move(){
         if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-            target.increaseRotation(0,-TURN_SPEED, 0);
+            target.increaseRotation(-TURN_SPEED);
         } else if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-            target.increaseRotation(0,TURN_SPEED, 0);
+            target.increaseRotation(TURN_SPEED);
         }
-        moveTarget();
+        target.moveTarget();
         calculateZoom();
         calculatePitch();
         calculateCameraPosition(calculatedHorizontalDistance(), calculatedVerticalDistance());
         this.yaw = 180 - target.getRotY();
-    }
-
-    public void moveTarget(){
-        float speed = 0;
-        float sideSpeed = 0;
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            sideSpeed = -SPEED;
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            sideSpeed = SPEED;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)){
-            speed = SPEED;
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            speed = -SPEED;
-        }
-        float distance = speed * DisplayManager.getFrameTimeSeconds();
-        float sideDistance = sideSpeed * DisplayManager.getFrameTimeSeconds();
-        float dx = (float) (distance * Math.sin(Math.toRadians(target.getRotY())));
-        float dz = (float) (distance * Math.cos(Math.toRadians(target.getRotY())));
-        float sideDx = (float) (sideDistance * Math.sin(Math.toRadians(target.getRotY() + 90)));
-        float sideDz = (float) (sideDistance * Math.cos(Math.toRadians(target.getRotY() + 90)));
-        target.increasePosition(dx + sideDx, 0, dz + sideDz);
     }
 
     public Vector3f getPosition() {

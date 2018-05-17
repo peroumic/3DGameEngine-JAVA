@@ -4,6 +4,9 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import toolbox.Color;
 
+/**
+ * Class for lightning in the world
+ */
 public class Light {
 
     private Vector3f direction;
@@ -11,6 +14,12 @@ public class Light {
     private Vector2f lightBias;// how much ambient light and how much diffuse
     // light
 
+    /**
+     * Contructor
+     * @param direction - in which direction the light shines
+     * @param color - what color the light has
+     * @param lightBias - how clean the light is
+     */
     public Light(Vector3f direction, Color color, Vector2f lightBias) {
         this.direction = direction;
         this.direction.normalise();

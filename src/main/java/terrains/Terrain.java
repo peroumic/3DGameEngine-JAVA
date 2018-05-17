@@ -22,6 +22,13 @@ public class Terrain {
 
     private float[][] heights;
 
+    /**
+     * Contructor
+     * @param gridX - which quarter of the cartesian coordinate system the terrain should be
+     * @param gridZ - which quarter of the cartesian coordinate system the terrain should be
+     * @param loader - for loading model
+     * @param modelTexture - for loading model texture
+     */
     public Terrain(int gridX, int gridZ, Loader loader, ModelTexture modelTexture){
         this.modelTexture = modelTexture;
         this.x = gridX * SIZE;
@@ -91,6 +98,12 @@ public class Terrain {
         return loader.loadTerrainToVAO(vertices, indexes, colors, normals);
     }
 
+    /**
+     * Based on coordinates returns the height
+     * @param worldX - x coordinate
+     * @param worldZ - z coordinate
+     * @return - returns height
+     */
     public float getHeight(float worldX, float worldZ){
         float terrainX = worldX - this.x;
         float terrainZ = worldZ - this.z;
@@ -150,6 +163,10 @@ public class Terrain {
 
     public int getVERTEX_COUNT() {
         return VERTEX_COUNT;
+    }
+
+    public static float getSIZE() {
+        return SIZE;
     }
 
 }

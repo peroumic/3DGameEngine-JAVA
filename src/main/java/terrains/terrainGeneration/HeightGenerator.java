@@ -2,6 +2,9 @@ package terrains.terrainGeneration;
 
 import java.util.Random;
 
+/**
+ * generates heights randomly using perlin noise and other functions
+ */
 public class HeightGenerator {
 
     private static final float AMPLITUDE = 120;
@@ -9,10 +12,19 @@ public class HeightGenerator {
     private Random random = new Random();
     private int seed;
 
+    /**
+     * Constructor, that makes a random seed
+     */
     public HeightGenerator(){
         this.seed = random.nextInt(100000000);
     }
 
+    /**
+     * generates height based on coordinates
+     * @param x - x coordinate
+     * @param z - z coordinate
+     * @return - returns the height
+     */
     public float generateHeight(int x, int z){
         float total =  getInterpolatedNoise(x/8f,z/8f) * AMPLITUDE;
         total += getInterpolatedNoise(x/4f,z/4f) * AMPLITUDE/4f;
@@ -20,6 +32,12 @@ public class HeightGenerator {
         return total;
     }
 
+    /**
+     * approximation of height between vertices
+     * @param x - x coordinate
+     * @param z - z coordinate
+     * @return - returns approximated height
+     */
     public float getSmoothNoise(int x, int z){
         float corners = (getNoise(x+1, z+1)+getNoise(x+1, z-1)+getNoise(x-1, z+1)+getNoise(x-1, z-1))/16f;
         float sides = (getNoise(x+1, z)+getNoise(x, z-1)+getNoise(x-1, z)+getNoise(x, z+1))/8f;

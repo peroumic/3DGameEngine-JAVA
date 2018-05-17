@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Customized loader for .obj files from Blender. It reads from the file and based on marks at the beggining of the
@@ -19,13 +21,13 @@ import java.util.List;
  * A lot of trial and error went into making this class.
  */
 public class OBJLoader {
+    private final static Logger LOGGER = Logger.getLogger(OBJLoader.class.getName());
     public static RawModel loadObjModel(String filename, Loader loader){
         FileReader fr = null;
         try {
             fr = new FileReader(new File("src/main/java/resources/"+filename+".obj"));
         } catch (FileNotFoundException e) {
-            System.err.println("Could not read the file nemed " + filename);
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE,"Could not read the file named " + filename + " with error message: " + e.getMessage());
         }
 
         BufferedReader reader = new BufferedReader(fr);

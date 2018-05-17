@@ -6,6 +6,9 @@ import renderEngine.Light;
 import shaders.ShaderProgram;
 import toolbox.Maths;
 
+/**
+ * handles the shader stuff for entities
+ */
 public class StaticShader extends ShaderProgram {
 
     private static final String VERTEX_FILE = "src/main/java/shaders/entityShader/vertexShader.txt";
@@ -40,6 +43,10 @@ public class StaticShader extends ShaderProgram {
         super.bindAttribute(2, "normal");
     }
 
+    /**
+     * loads the light for lightning purposes
+     * @param light - light to be used
+     */
     public void loadLight(Light light){
         super.loadVector3f(lightDirection, light.getDirection());
         super.loadVector3f(lightColor, light.getColor());

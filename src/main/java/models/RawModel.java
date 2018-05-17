@@ -1,5 +1,8 @@
 package models;
 
+/**
+ * consists of data for the model
+ */
 public class RawModel {
 
     private int vaoID;

@@ -35,6 +35,10 @@ public class RenderManager {
     List<Terrain> terrains = new ArrayList<Terrain>();
     private Map<TexturedModel, List<UUID>> entities = new HashMap<TexturedModel, List<UUID>>();
 
+    /**
+     * Contructor
+     * @param entityManager - for connection to database
+     */
     public RenderManager(EntityManager entityManager){
         this.entityManager = entityManager;
         GL11.glEnable(GL11.GL_CULL_FACE);
@@ -65,6 +69,11 @@ public class RenderManager {
         entities.clear();
     }
 
+    /**
+     * Adds entity for rendering
+     * @param entity - what entity to render
+     * @param texturedModel - textured model of the entity to be rendered
+     */
     public void proccessEntity(UUID entity, TexturedModel texturedModel){
         List<UUID> batch = entities.get(texturedModel);
         if(batch!=null){
@@ -76,7 +85,10 @@ public class RenderManager {
         }
     }
 
-
+    /**
+     * Adding terrain to be rendered
+     * @param terrain - terrain to be rendered
+     */
     public void proccessTerrain(Terrain terrain){
         terrains.add(terrain);
     }
@@ -124,4 +136,7 @@ public class RenderManager {
         terrainShader.cleanUp();
     }
 
+    public Matrix4f getProjectionMatrix() {
+        return projectionMatrix;
+    }
 }
